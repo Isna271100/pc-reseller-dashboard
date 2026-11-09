@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PC Reseller Dashboard</title>
+<style>
+:root{--pink:#f5a9c8;--pink2:#ffe4ef;--lav:#eee8ff;--ink:#514454;--muted:#8e8290;--line:#f1e6ed;--white:#fff;--bg:#fff8fb;--green:#dff4e9;--yellow:#fff2cc;--shadow:0 8px 24px #e8cbd844}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:10px 14px;background:var(--pink);color:#fff;font-weight:700}button.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}button.danger{background:#f7dce5;color:#9b4767}
+.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.side{background:#fff;border-right:1px solid var(--line);padding:26px 18px;position:sticky;top:0;height:100vh}.brand{display:flex;align-items:center;gap:10px;margin:0 8px 28px}.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,#ffc5dc,#d9ccff);display:grid;place-items:center;font-size:22px}.brand h1{font-size:16px;margin:0}.brand small{color:var(--muted)}.nav{display:grid;gap:7px}.nav button{background:transparent;color:var(--muted);text-align:left;font-weight:650}.nav button.active,.nav button:hover{background:var(--pink2);color:#a34f75}.side-note{position:absolute;bottom:22px;left:18px;right:18px;background:#fff4f8;border-radius:16px;padding:14px;color:#966b80;font-size:12px}
+main{padding:30px;max-width:1450px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.eyebrow{color:#c27b9c;font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:10px}.top h2{margin:3px 0;font-size:26px}.top p{margin:0;color:var(--muted)}.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}.stat .label{color:var(--muted);font-size:12px}.stat .num{font-size:25px;font-weight:800;margin:5px 0}.stat .hint{font-size:11px;color:#b17a96}.panel{margin-bottom:18px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.panel h3{margin:0;font-size:16px}.muted{color:var(--muted)}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.quick button{background:#fff7fa;border:1px dashed #edbfd2;color:#985879;text-align:left;padding:16px}.quick b{display:block;font-size:14px}.quick span{font-size:11px;font-weight:500;color:var(--muted)}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-weight:700;background:#fffbfd}td strong{font-size:13px}.pill{display:inline-block;padding:4px 9px;border-radius:99px;background:var(--lav);font-size:11px;font-weight:700}.pill.green{background:var(--green)}.pill.yellow{background:var(--yellow)}.pill.pink{background:var(--pink2)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.toolbar input,.toolbar select,.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:#fff;color:var(--ink);min-width:0}.toolbar input{flex:1;min-width:180px}
+.view{display:none}.view.active{display:block}.empty{text-align:center;padding:30px;color:var(--muted)}.modal-back{display:none;position:fixed;inset:0;background:#4d394955;z-index:10;align-items:center;justify-content:center;padding:18px}.modal-back.show{display:flex}.modal{background:#fff;border-radius:20px;padding:22px;width:min(520px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 70px #6b3d5b44}.modal h3{margin:0 0 14px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:var(--muted);font-weight:700}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.notice{background:#fff5f9;border:1px solid #f4d8e5;padding:12px 14px;border-radius:13px;color:#92647a;font-size:12px;margin-bottom:16px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.side{height:auto;position:relative;padding:14px}.brand{margin-bottom:12px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px 12px}.side-note{display:none}main{padding:18px}.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.top{align-items:flex-start;flex-direction:column}.top h2{font-size:22px}.cards{gap:9px}.stat{padding:13px}.stat .num{font-size:20px}.quick{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+ <div class="brand"><div class="logo">♡</div><div><h1>PC Reseller Hub</h1><small>your little shop manager</small></div></div>
+ <nav class="nav">
+  <button class="active" data-view="dashboard">♡ Dashboard</button><button data-view="inventory">▣ Inventory</button><button data-view="orders">♡ Orders</button><button data-view="customers">☻ Customers</button><button data-view="shipping">✉ Shipping</button>
+ </nav>
+ <div class="side-note">✿ Keep your little shop organized, one photocard at a time.</div>
+</aside>
+<main>
+ <header class="top"><div><div class="eyebrow">welcome back, lovely</div><h2 id="pageTitle">Shop overview ♡</h2><p>Here's what's happening in your photocard shop.</p></div><div class="top-actions"><button class="secondary" id="exportBtn">Export backup</button><button id="addMain">＋ Add item</button></div></header>
+ <section class="view active" id="dashboard">
+  <div class="cards">
+   <div class="stat"><div class="label">Inventory items</div><div class="num" id="statInventory">0</div><div class="hint">photocards listed</div></div>
+   <div class="stat"><div class="label">Open orders</div><div class="num" id="statOrders">0</div><div class="hint">still in progress</div></div>
+   <div class="stat"><div class="label">Revenue received</div><div class="num" id="statRevenue">$0.00</div><div class="hint">from paid orders</div></div>
+   <div class="stat"><div class="label">Customers</div><div class="num" id="statCustomers">0</div><div class="hint">saved buyers</div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>Quick actions ✨</h3></div><div class="quick">
+   <button onclick="openModal('item')"><b>＋ Add photocard</b><span>Save a new PC listing</span></button>
+   <button onclick="openModal('order')"><b>♡ Create order</b><span>Track a buyer's purchase</span></button>
+   <button onclick="openModal('customer')"><b>☻ Add customer</b><span>Keep buyer details handy</span></button>
+  </div></div>
+  <div class="panel"><div class="panel-head"><h3>Recent orders</h3><button class="secondary" onclick="showView('orders')">View all</button></div><div id="recentOrders" class="table-wrap"></div></div>
+  <div class="notice">💗 Your data is saved in this browser on this device. Use <b>Export backup</b> regularly to keep a copy of your shop data.</div>
+ </section>
+ <section class="view" id="inventory"><div class="panel"><div class="panel-head"><h3>Photocard inventory</h3><button onclick="openModal('item')">＋ Add item</button></div><div class="toolbar"><input id="itemSearch" placeholder="Search member, group, album..."><select id="itemFilter"><option value="">All stock</option><option>Available</option><option>Reserved</option><option>Sold</option></select></div><div id="itemsTable" class="table-wrap"></div></div></section>
+ <section class="view" id="orders"><div class="panel"><div class="panel-head"><h3>Order tracker</h3><button onclick="openModal('order')">＋ New order</button></div><div class="toolbar"><input id="orderSearch" placeholder="Search buyer or item..."><select id="orderFilter"><option value="">All orders</option><option>Awaiting payment</option><option>Paid</option><option>Shipping</option><option>Completed</option><option>Cancelled</option></select></div><div id="ordersTable" class="table-wrap"></div></div></section>
+ <section class="view" id="customers"><div class="panel"><div class="panel-head"><h3>Customer book</h3><button onclick="openModal('customer')">＋ Add customer</button></div><div id="customersTable" class="table-wrap"></div></div></section>
+ <section class="view" id="shipping"><div class="panel"><div class="panel-head"><h3>Shipping tracker</h3><span class="muted">Orders marked as shipping</span></div><div id="shippingTable" class="table-wrap"></div></div></section>
+</main>
+</div>
+<div class="modal-back" id="modalBack"><div class="modal"><h3 id="modalTitle">Add item</h3><form id="entryForm"><div class="fields" id="formFields"></div><div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancel</button><button type="submit">Save ♡</button></div></form></div></div>
+<script>
+const KEY='pcResellerHub_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'{"items":[],"orders":[],"customers":[]}');
+let mode='', editing=null;
+const $=id=>document.getElementById(id);
+const money=n=>'$'+Number(n||0).toFixed(2);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));$('pageTitle').textContent=({dashboard:'Shop overview ♡',inventory:'Your inventory ✿',orders:'Order tracker ♡',customers:'Customer book ☻',shipping:'Shipping updates ✉'})[v];}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showView(b.dataset.view));
+function table(headers,rows){if(!rows.length)return '<div class="empty">Nothing here yet ♡ Add your first entry!</div>';return '<table><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table>'}
+function pill(s){let cls=s==='Paid'||s==='Completed'||s==='Available'?'green':s==='Awaiting payment'||s==='Reserved'?'yellow':s==='Cancelled'?'pink':'';return `<span class="pill ${cls}">${esc(s)}</span>`}
+function render(){
+ $('statInventory').textContent=db.items.length;$('statOrders').textContent=db.orders.filter(o=>!['Completed','Cancelled'].includes(o.status)).length;$('statRevenue').textContent=money(db.orders.filter(o=>['Paid','Shipping','Completed'].includes(o.status)).reduce((a,o)=>a+Number(o.total||0),0));$('statCustomers').textContent=db.customers.length;
+ const itemRows=db.items.map((x,i)=>`<tr><td><strong>${esc(x.member)}</strong><br><span class="muted">${esc(x.group)} · ${esc(x.album||'')}</span></td><td>${esc(x.code||'—')}</td><td>${money(x.price)}</td><td>${pill(x.status)}</td><td><button class="secondary" onclick="editEntry('item',${i})">Edit</button> <button class="danger" onclick="removeEntry('items',${i})">×</button></td></tr>`);
+ $('itemsTable').innerHTML=table(['Member / group','Code','Price','Status',''],itemRows);
+ const orderRows=db.orders.map((o,i)=>`<tr><td><strong>${esc(o.buyer)}</strong><br><span class="muted">${esc(o.item)}</span></td><td>${money(o.total)}</td><td>${pill(o.status)}</td><td>${esc(o.date||'—')}</td><td><button class="secondary" onclick="editEntry('order',${i})">Edit</button> <button class="danger" onclick="removeEntry('orders',${i})">×</button></td></tr>`);
+ $('ordersTable').innerHTML=table(['Buyer / item','Total','Status','Date',''],orderRows);
+ $('recentOrders').innerHTML=table(['Buyer / item','Total','Status'],db.orders.slice(-5).reverse().map(o=>`<tr><td><strong>${esc(o.buyer)}</strong><br><span class="muted">${esc(o.item)}</span></td><td>${money(o.total)}</td><td>${pill(o.status)}</td></tr>`));
+ $('customersTable').innerHTML=table(['Name','Instagram / contact','Notes',''],db.customers.map((c,i)=>`<tr><td><strong>${esc(c.name)}</strong></td><td>${esc(c.contact||'—')}</td><td>${esc(c.notes||'—')}</td><td><button class="secondary" onclick="editEntry('customer',${i})">Edit</button> <button class="danger" onclick="removeEntry('customers',${i})">×</button></td></tr>`));
+ $('shippingTable').innerHTML=table(['Buyer','Item','Carrier','Tracking / note',''],db.orders.filter(o=>o.status==='Shipping').map(o=>`<tr><td>${esc(o.buyer)}</td><td>${esc(o.item)}</td><td>${esc(o.carrier||'—')}</td><td>${esc(o.tracking||'—')}</td><td><button class="secondary" onclick="showView('orders')">Manage</button></td></tr>`));
+}
+const configs={
+ item:{title:'Photocard listing',fields:[['member','Member / name','text',1],['group','Group','text',1],['album','Album / era','text'],['code','PC code / details','text'],['price','Selling price (USD)','number',1],['status','Stock status','select',['Available','Reserved','Sold']]]},
+ order:{title:'Order details',fields:[['buyer','Buyer name','text',1],['item','Photocard / item','text',1],['total','Order total (USD)','number',1],['status','Order status','select',['Awaiting payment','Paid','Shipping','Completed','Cancelled']],['date','Order date','date'],['carrier','Shipping carrier','text'],['tracking','Tracking / shipping note','text']]},
+ customer:{title:'Customer details',fields:[['name','Customer name','text',1],['contact','Instagram / contact','text'],['notes','Notes','textarea']]}
+};
+function openModal(type,index=null){mode=type;editing=index;const cfg=configs[type];$('modalTitle').textContent=(index===null?'Add ':'Edit ')+cfg.title;$('formFields').innerHTML=cfg.fields.map(([name,label,type,extra])=>{let val=index!==null?(db[type==='item'?'items':type==='order'?'orders':'customers'][index][name]??''):'';let required=extra===1?'required':'';let control=type==='select'?`<select name="${name}">${extra.map(v=>`<option ${val===v?'selected':''}>${v}</option>`).join('')}</select>`:type==='textarea'?`<textarea name="${name}" rows="3">${esc(val)}</textarea>`:`<input name="${name}" type="${type}" value="${esc(val)}" ${required} ${type==='number'?'step="0.01" min="0"':''}>`;return `<div class="field ${name==='notes'?'full':''}"><label>${label}</label>${control}</div>`}).join('');$('modalBack').classList.add('show')}
+function editEntry(type,i){openModal(type,i)}
+function removeEntry(key,i){if(confirm('Delete this entry?')){db[key].splice(i,1);save()}}
+function closeModal(){$('modalBack').classList.remove('show')}
+$('cancelModal').onclick=closeModal;
+$('entryForm').onsubmit=e=>{e.preventDefault();let obj=Object.fromEntries(new FormData(e.target).entries());if(mode==='item'||mode==='order')obj.price!==undefined?obj.price=Number(obj.price):null;if(obj.total!==undefined)obj.total=Number(obj.total);let key=mode==='item'?'items':mode==='order'?'orders':'customers';if(editing===null)db[key].push(obj);else db[key][editing]=obj;closeModal();save()};
+$('addMain').onclick=()=>openModal('item');
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='pc-reseller-backup.json';a.click();URL.revokeObjectURL(a.href)};
+$('itemSearch').oninput=filterItems;$('itemFilter').onchange=filterItems;
+function filterItems(){let q=$('itemSearch').value.toLowerCase(),f=$('itemFilter').value;let rows=db.items.map((x,i)=>({x,i})).filter(({x})=>(!f||x.status===f)&&[x.member,x.group,x.album,x.code].join(' ').toLowerCase().includes(q)).map(({x,i})=>`<tr><td><strong>${esc(x.member)}</strong><br><span class="muted">${esc(x.group)} · ${esc(x.album||'')}</span></td><td>${esc(x.code||'—')}</td><td>${money(x.price)}</td><td>${pill(x.status)}</td><td><button class="secondary" onclick="editEntry('item',${i})">Edit</button> <button class="danger" onclick="removeEntry('items',${i})">×</button></td></tr>`);$('itemsTable').innerHTML=table(['Member / group','Code','Price','Status',''],rows)}
+$('orderSearch').oninput=filterOrders;$('orderFilter').onchange=filterOrders;
+function filterOrders(){let q=$('orderSearch').value.toLowerCase(),f=$('orderFilter').value;let rows=db.orders.map((o,i)=>({o,i})).filter(({o})=>(!f||o.status===f)&&[o.buyer,o.item].join(' ').toLowerCase().includes(q)).map(({o,i})=>`<tr><td><strong>${esc(o.buyer)}</strong><br><span class="muted">${esc(o.item)}</span></td><td>${money(o.total)}</td><td>${pill(o.status)}</td><td>${esc(o.date||'—')}</td><td><button class="secondary" onclick="editEntry('order',${i})">Edit</button> <button class="danger" onclick="removeEntry('orders',${i})">×</button></td></tr>`);$('ordersTable').innerHTML=table(['Buyer / item','Total','Status','Date',''],rows)}
+render();
+</script>
+</body></html>
